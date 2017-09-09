@@ -1,0 +1,17 @@
+version: '2'
+services:
+    app:
+        image: money_manager_app
+        expose: "5000"
+        links:
+            - postgres
+        depends_on:
+            - postgres
+    postgres:
+        image: money_manager_postgres
+        expose: "5432"
+        environment:
+            POSTGRES_PASSWORD: secret_pwd
+            POSTGRES_USER: money-saver
+            POSTGRES_DB: money_manager
+

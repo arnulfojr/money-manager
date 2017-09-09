@@ -7,3 +7,4 @@ from models.mixin_model import ModelMixin
 
 from src.setup_app import setup_app
 from src.create_all import create_all
+
