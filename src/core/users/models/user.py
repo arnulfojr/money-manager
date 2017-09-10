@@ -1,9 +1,11 @@
 
+from uuid import uuid4
+
 from sqlalchemy import func, Column
 from sqlalchemy import String, DateTime
 from sqlalchemy.orm import relationship
 
-from sqlalchemy.dialects.postgresql import UUID
+from lib.db.types import GUID
 
 from lib.db import Model
 from lib.db import ModelMixin
@@ -19,7 +21,7 @@ class User(ModelMixin, Model):
     __tablename__ = 'user'
 
     # User code
-    code = Column(UUID, primary_key=True, nullable=False)
+    code = Column(GUID, primary_key=True, nullable=False, default=uuid4)
 
     # username
     username = Column(String(255), nullable=False)
@@ -54,6 +56,22 @@ class User(ModelMixin, Model):
             'required': True
         }
     }
+
+    @classmethod
+    def from_dict(cls, json, user=None):
+        """
+        Returns a User from a json/dictionary
+        """
+        if user is None:
+            user = cls()
+
+        user.username = json['username']
+        user.first_name = json['first_name']
+        user.last_name = json['last_name']
+
+        user.password = json['password']
+
+        return user
 
     def to_dict(self, include_pwd=False):
         """returns the user as a dictionary"""

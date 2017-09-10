@@ -9,3 +9,5 @@ from src.setup_app import setup_app
 from src.create_all import create_all
 from src.drop_all import drop_all
 
+from types.GUID import GUID
+

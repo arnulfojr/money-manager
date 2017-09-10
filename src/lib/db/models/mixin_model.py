@@ -20,7 +20,12 @@ class ModelMixin(object):
                     'This model does not have code implemented')
         query = session.query(cls)
         query = query.filter(cls.code == code)
-        return query.one()
+        try:
+            return query.one()
+        except NoResultFound:
+            return None
+        except MultipleResultsFound:
+            return None
 
     @classmethod
     def _query(cls, order_by=None, offset=None, limit=None):
@@ -35,7 +40,7 @@ class ModelMixin(object):
 
     @classmethod
     def query(cls, *args, **kwargs):
-        return cls.query(*args, **kwargs).all()
+        return cls._query(*args, **kwargs).all()
 
     @classmethod
     def count(cls, *args, **kwargs):
