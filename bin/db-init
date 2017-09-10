@@ -1,0 +1,13 @@
+#!/usr/bin/python
+
+from lib.db import create_all
+
+import core
+
+
+print "Will create database"
+
+create_all()
+
+print "Created database"
+

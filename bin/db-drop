@@ -1,0 +1,13 @@
+#!/usr/bin/python
+
+from lib.db import drop_all
+
+import core
+
+
+print "Will drop database"
+
+drop_all()
+
+print "Dropped database"
+
