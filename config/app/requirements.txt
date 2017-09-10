@@ -1,4 +1,5 @@
 appnope==0.1.0
+APScheduler==3.3.1
 backports.shutil-get-terminal-size==1.0.0
 Cerberus==1.1
 certifi==2017.7.27.1
@@ -7,6 +8,7 @@ click==6.7
 decorator==4.1.2
 enum34==1.1.6
 Flask==0.12.2
+funcsigs==1.0.2
 futures==3.1.1
 gunicorn==19.7.1
 idna==2.6
@@ -22,12 +24,14 @@ prompt-toolkit==1.0.15
 psycopg2==2.7.3.1
 ptyprocess==0.5.2
 Pygments==2.2.0
+pytz==2017.2
 requests==2.18.4
 scandir==1.5
 simplegeneric==0.8.1
 six==1.10.0
 SQLAlchemy==1.1.13
 traitlets==4.3.2
+tzlocal==1.4
 urllib3==1.22
 wcwidth==0.1.7
 Werkzeug==0.12.2

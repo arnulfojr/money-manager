@@ -2,6 +2,7 @@ version: '2'
 services:
     app:
         image: money_manager_app
+        restart: always
         expose:
             - 5000
         links:
