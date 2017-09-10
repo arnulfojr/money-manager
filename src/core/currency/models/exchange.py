@@ -14,7 +14,7 @@ from lib.db import ModelMixin
 class ExchangeRate(ModelMixin, Model):
     """Exchange ratio"""
 
-    __table__ = 'exchange_rate'
+    __tablename__ = 'exchange_rate'
 
     code = Column(UUID, primary_key=True, nullable=False)
 

@@ -1,7 +1,7 @@
 
 from sqlalchemy import func
 from sqlalchemy import Column, ForeignKey
-from sqlalchemy import String
+from sqlalchemy import String, DateTime
 
 from sqlalchemy.dialects.postgresql import UUID
 
@@ -13,13 +13,13 @@ from lib.db import ModelMixin
 
 class Account(ModelMixin, Model):
 
-    __table__ = 'accounts'
+    __tablename__ = 'accounts'
 
     # Account Code
     code = Column(UUID, primary_key=True, nullable=True)
 
     # relate the account to a user
-    user_code = Column(String, ForeignKey('user.code'))
+    user_code = Column(UUID, ForeignKey('user.code'))
     user = relationship('User', backref='accounts')
 
     # Name of the Account

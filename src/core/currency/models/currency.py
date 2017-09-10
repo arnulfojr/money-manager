@@ -13,7 +13,7 @@ class Currency(ModelMixin, Model):
         * Account, through accounts
     """
 
-    __table__ = 'currency'
+    __tablename__ = 'currency'
 
     # Currency Code -> MXN
     code = Column(String(4), primary_key=True, nullable=False)
