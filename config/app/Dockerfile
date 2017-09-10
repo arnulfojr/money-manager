@@ -11,9 +11,16 @@ ENV PYTHONPATH "/app/src"
 # add the bin folder to the PATH
 ENV PATH="/app/bin:$PATH"
 
+WORKDIR /app
+
+# install requirements
+RUN pip install -r requirements.txt
+
+WORKDIR /app/src
+
 # define default entrypoint
-ENTRYPOINT ["python"]
+ENTRYPOINT []
 
 # define default script
-CMD ["init.py"]
+CMD ["gunicorn", "-c", "/app/config/app/config.py", "init:application"]
 
