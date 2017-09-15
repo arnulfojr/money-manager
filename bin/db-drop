@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-from lib.db import drop_all
-
 import core
+
+from lib.db import drop_all
 
 
 print "Will drop database"

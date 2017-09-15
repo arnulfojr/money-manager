@@ -1,9 +1,8 @@
 #!/usr/bin/python
 
-from lib.db import create_all
-
 import core
 
+from lib.db import create_all
 
 print "Will create database"
 
