@@ -27,13 +27,26 @@ class Currency(ModelMixin, Model):
     schema = {
         'code': {
             'type': 'string',
+            'empty': False,
             'required': True
         },
         'name': {
             'type': 'string',
+            'empty': False,
             'required': False
         }
     }
+
+    @classmethod
+    def from_dict(cls, json, currency=None):
+        """Returns an instance from the json passed"""
+        if currency is None:
+            currency = cls()
+
+        currency.code = json['code']
+        currency.name = json.get('name', None)
+
+        return currency
 
     def to_dict(self):
         """returns the currency as a dictionary"""
