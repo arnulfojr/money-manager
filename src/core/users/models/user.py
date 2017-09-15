@@ -24,7 +24,7 @@ class User(ModelMixin, Model):
     code = Column(GUID, primary_key=True, nullable=False, default=uuid4)
 
     # username
-    username = Column(String(255), nullable=False)
+    username = Column(String(255), nullable=False, unique=True)
 
     # password
     password = Column(String(255), nullable=False)

@@ -2,9 +2,11 @@
 from .. import blueprint
 
 from flask import request, make_response, jsonify
+from sqlalchemy.exc import IntegrityError
 from cerberus import Validator
 
 from core.users import User
+from core.users import load_user
 from lib.db import session
 
 
@@ -21,9 +23,9 @@ def get_users():
 
 
 @blueprint.route('/<uuid:user_code>/', methods=['GET'])
-def get_user(user_code):
+@load_user
+def get_user(user_code, user):
     """Returns the user with the given code"""
-    user = User.get(user_code)
 
     if user is None:
         return make_response('User was not found', 404)
@@ -45,12 +47,16 @@ def save_user():
     if validator.validate(request.get_json()):
         user = User.from_dict(validator.document)
 
-        session.add(user)
-        session.commit()
-        
-        payload = user.to_dict()
-        status = 200
+        try:
+            session.add(user)
+            session.commit()
 
+            payload = user.to_dict()
+            status = 200
+        except IntegrityError:
+            status = 400
+            payload = {'username': ['Username already exists']}
+        
     else:
 
         status = 400
@@ -59,12 +65,14 @@ def save_user():
     response = make_response(jsonify(payload), status)
 
     session.flush()
+    session.close()
 
     return response
 
 
 @blueprint.route('/<user_code>/', methods=['PUT'])
-def update_user(user_code):
+@load_user
+def update_user(user_code, user):
     """Updates the user with the given code"""
     schema = User.schema
 
@@ -74,8 +82,6 @@ def update_user(user_code):
         response = make_response(jsonify(validator.errors), 400)
         return response
 
-    user = User.get(user_code)
-
     if user is None:
         response = make_response('No user found', 404)
         return response
@@ -84,8 +90,28 @@ def update_user(user_code):
 
     session.commit()
     session.flush()
+    session.close()
 
     response = make_response('User was updated', 204)
+
+    return response
+
+
+@blueprint.route('/<user_code>/', methods=['DELETE'])
+@load_user
+def delete_user(user_code, user):
+    """Deletes the user"""
+    if user is None:
+        response = make_response('No user found with code {}'.format(user_code), 404)
+        return response
+
+    session.delete(user)
+    session.commit()
+    session.flush()
+
+    session.close()
+
+    response = make_response('User was deleted', 200)
 
     return response
 
