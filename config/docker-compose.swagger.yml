@@ -1,9 +1,15 @@
 version: '2.0'
 
 services:
+    swagger:
+        image: swaggerapi/swagger-ui
+        ports:
+            - 5001:8080
+        depends_on:
+            - app
     app:
         build: .
-        restart: always
+        restart: on-failure
         ports:
             - 5000:5000
         environment:

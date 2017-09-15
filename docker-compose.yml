@@ -2,7 +2,7 @@ version: '2'
 services:
     app:
         image: money_manager_app
-        restart: always
+        restart: on-failure
         expose:
             - 5000
         links:

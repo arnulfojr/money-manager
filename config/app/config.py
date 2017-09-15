@@ -12,3 +12,5 @@ threads = 2
 
 accesslog = '-'
 
+errorlog = '-'
+
