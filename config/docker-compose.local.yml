@@ -1,0 +1,25 @@
+version: '2.0'
+
+services:
+    app:
+        build: .
+        restart: on-failure
+        ports:
+            - 5000:5000
+        environment:
+            FLASK_DEBUG: 1
+            FLASK_APP: init.py
+            USE_RELOAD: 'True'
+            USE_DEBUGGER: 'True'
+        command:
+            - python
+            - init.py
+        volumes:
+            - .:/app
+    postgres:
+        build: ./config/postgres/
+        ports:
+            - 5432:5432
+        volumes:
+            - ~/Appdata/money/:/var/lib/postgresql/data
+

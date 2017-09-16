@@ -1,0 +1,49 @@
+#!/usr/bin/python
+
+from core.users import User
+from core.accounts import Account
+from core.currency import Currency
+
+from lib.db import session
+
+
+def add_data():
+    print "Will create development database"
+
+    user = User()
+    user.username = 'devsolis'
+    user.first_name = 'Arnulfo'
+    user.last_name = 'Solis'
+    user.password = 'Dell6400!'
+
+    session.add(user)
+
+    currency = Currency()
+    currency.code = 'MXN'
+    currency.name = 'Mexico'
+
+    session.add(currency)
+
+    account = Account()
+    account.name = 'BBVA Credito'
+    account.user = user
+    account.currency = currency
+
+    session.add(account)
+
+    try:
+        session.commit()
+        session.flush()
+    except Exception:
+        session.rollback()
+
+    session.close()
+
+    print "Created development database"
+
+    session.remove()
+
+
+if __name__ == '__main__':
+    add_data()
+

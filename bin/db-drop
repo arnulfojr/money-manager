@@ -1,0 +1,21 @@
+#!/usr/bin/python
+
+import core
+
+from lib.db import drop_all
+from lib.db import session
+
+
+def drop_database():
+    print "Will drop database"
+
+    drop_all()
+
+    session.remove()
+
+    print "Dropped database"
+
+
+if __name__ == '__main__':
+    drop_database()
+

@@ -1,0 +1,21 @@
+#!/usr/bin/python
+
+import core
+
+from lib.db import create_all
+from lib.db import session
+
+
+def init_database():
+    print "Will create database"
+
+    create_all()
+    
+    session.remove()
+
+    print "Created database"
+
+
+if __name__ == '__main__':
+    init_database()
+
