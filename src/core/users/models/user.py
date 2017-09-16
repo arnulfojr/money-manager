@@ -18,7 +18,7 @@ class User(ModelMixin, Model):
         * Account through accounts
     """
 
-    __tablename__ = 'user'
+    __tablename__ = 'users'
 
     # User code
     code = Column(GUID, primary_key=True, nullable=False, default=uuid4)

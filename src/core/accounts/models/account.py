@@ -20,14 +20,14 @@ class Account(ModelMixin, Model):
     code = Column(GUID, primary_key=True, nullable=False, default=uuid4)
 
     # relate the account to a user
-    user_code = Column(GUID, ForeignKey('user.code'))
+    user_code = Column(GUID, ForeignKey('users.code'))
     user = relationship('User', backref='accounts')
 
     # Name of the Account
     name = Column(String, nullable=False)
 
     # currency
-    currency_id = Column(String(4), ForeignKey('currency.code'))
+    currency_code = Column(String(4), ForeignKey('currency.code'))
     currency = relationship('Currency', backref='accounts')
 
     # Registered on
@@ -36,7 +36,20 @@ class Account(ModelMixin, Model):
     schema = {
         'name': {
             'type': 'string',
-            'required': True
+            'required': True,
+            'empty': False
+        },
+        'user': {
+            'type': 'dict',
+            'required': True,
+            'allow_unknown': True,
+            'schema': {
+                'code': {
+                    'type': 'string',
+                    'required': True,
+                    'empty': False
+                }
+            }
         },
         'currency': {
             'type': 'dict',
@@ -44,13 +57,25 @@ class Account(ModelMixin, Model):
             'allow_unknown': True,
             'schema': {
                 'code': {
-                    'required': True
+                    'required': True,
+                    'type': 'string',
+                    'empty': False
                 }
             }
         }
     }
 
-    def to_dict(self, include_currency=True):
+    @classmethod
+    def from_dict(cls, json, account=None):
+        if account is None:
+            account = cls()
+
+        account.user_code = json['user']['code']
+        account.currency_code = json['currency']['code']
+
+        return account
+
+    def to_dict(self, include_currency=True, include_user=True):
         """returns the account as a dictionary"""
         account = {
             'code': self.code,
@@ -60,6 +85,9 @@ class Account(ModelMixin, Model):
 
         if include_currency:
             account['currency'] = self.currency.to_dict()
+
+        if include_user:
+            account['user'] = self.user.to_dict()
 
         return account
 
