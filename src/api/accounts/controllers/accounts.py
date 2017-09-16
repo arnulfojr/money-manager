@@ -38,12 +38,12 @@ def save_account():
 
     session.add(account)
 
-    session.commit(account)
+    session.commit()
     session.flush()
 
+    response = make_response(jsonify(account.to_dict()), 201)
+    
     session.close()
-
-    response = make_response(jsonify({}), 201)
 
     return response
 
@@ -85,6 +85,26 @@ def update_account(code):
     payload = account.to_dict()
 
     response = make_response(jsonify(payload), 200)
+
+    return response
+
+
+@blueprint.route('/<code>/', methods=['DELETE'])
+def delete_account(code):
+    account = Account.get(code)
+
+    if account is None:
+        response = make_response(jsonify({'message': 'No account was found'}), 404)
+        return response
+
+    session.delete(account)
+
+    session.commit()
+    session.flush()
+
+    session.close()
+
+    response = make_response(jsonify({'message': 'Account {} was deleted'.format(code)}), 200)
 
     return response
 

@@ -70,6 +70,7 @@ class Account(ModelMixin, Model):
         if account is None:
             account = cls()
 
+        account.name = json['name']
         account.user_code = json['user']['code']
         account.currency_code = json['currency']['code']
 
