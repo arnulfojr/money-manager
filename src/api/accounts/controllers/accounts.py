@@ -80,9 +80,15 @@ def update_account(code):
         response = make_response(jsonify(validator.errors), 400)
         return response
 
-    account = Account.from_dict(validator.document)
+    account = Account.from_dict(validator.document, account)
+
+    session.add(account)
+    session.commit()
+    session.flush()
 
     payload = account.to_dict()
+
+    session.close()
 
     response = make_response(jsonify(payload), 200)
 
