@@ -13,6 +13,7 @@ services:
             DB_URI: "postgresql://money-saver:secret_pwd@postgres:5432/money_manager"
     postgres:
         image: money_manager_postgres
+        restart: on-failure
         expose:
             - 5432
         environment:

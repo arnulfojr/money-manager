@@ -3,11 +3,19 @@
 import core
 
 from lib.db import drop_all
+from lib.db import session
 
 
-print "Will drop database"
+def drop_database():
+    print "Will drop database"
 
-drop_all()
+    drop_all()
 
-print "Dropped database"
+    session.remove()
+
+    print "Dropped database"
+
+
+if __name__ == '__main__':
+    drop_database()
 
